@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<title>Buat Kamu 💌 — By ChelvinXD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Caveat:wght@400;700&family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  :root{
+    --pink:#ff7aa8;
+    --pink-dark:#e8558a;
+    --text:#4b3a48;
+  }
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Nunito Sans',system-ui,-apple-system,sans-serif;
+    color:var(--text);
+    line-height:1.6;
+    background:linear-gradient(165deg,#fff3f7 0%,#ffe0ec 45%,#f2e6ff 100%);
+    background-attachment:fixed;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:
+      radial-gradient(circle at 15% 18%,rgba(255,170,200,.45),transparent 45%),
+      radial-gradient(circle at 85% 78%,rgba(190,160,255,.40),transparent 45%);
+  }
+  body.lock{overflow:hidden}
+
+  /* ================= LOADING ================= */
+  .overlay{
+    position:fixed;inset:0;z-index:999;
+    display:grid;place-items:center;
+    background:linear-gradient(160deg,#ffe6f0,#f0e4ff);
+    transition:opacity .8s ease,visibility .8s ease;
+  }
+  .overlay.hide{opacity:0;visibility:hidden}
+  .load-box{
+    text-align:center;font-family:'Quicksand',sans-serif;font-weight:700;
+    color:var(--pink-dark);font-size:1.05rem;
+  }
+  .heart-beat{font-size:54px;display:block;margin-bottom:8px;animation:beat 1s infinite}
+  @keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.22)}}
+
+  /* ================= SECTION ================= */
+  .slide{
+    position:relative;z-index:1;
+    min-height:100vh;min-height:100svh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:14px;
+    padding:56px 22px 96px;
+    text-align:center;
+  }
+  .slide.hidden{display:none}
+
+  .photo{
+    width:min(70vw,250px);aspect-ratio:1/1;
+    border-radius:36px;
+    display:grid;place-items:center;
+    background:linear-gradient(150deg,#ffd6e6,#ffeaf3 55%,#e8d9ff);
+    box-shadow:0 20px 45px -12px rgba(214,110,155,.55),inset 0 0 0 6px rgba(255,255,255,.65);
+    overflow:hidden;
+    animation:floaty 6s ease-in-out infinite;
+  }
+  .photo.small{width:min(48vw,170px)}
+  .photo .emo{font-size:clamp(52px,15vw,88px);line-height:1;filter:drop-shadow(0 6px 10px rgba(200,110,150,.35))}
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+  .stiker{font-size:40px;animation:pop 2.4s ease-in-out infinite}
+  @keyframes pop{0%,100%{transform:scale(1) rotate(-4deg)}50%{transform:scale(1.12) rotate(4deg)}}
+
+  .title{
+    font-family:'Quicksand',sans-serif;font-weight:700;
+    font-size:clamp(1.6rem,6.5vw,2.2rem);
+    color:var(--pink-dark);letter-spacing:.4px;
+  }
+  .big{
+    font-family:'Quicksand',sans-serif;font-weight:700;
+    font-size:clamp(1.1rem,4.6vw,1.45rem);
+  }
+  .hand{font-family:'Caveat',cursive;font-size:clamp(1.4rem,5.5vw,1.9rem);color:#c86a92}
+  .hint{font-size:.95rem;color:#a08a9a}
+  .teks{
+    max-width:640px;
+    font-size:clamp(.98rem,3.8vw,1.08rem);
+    line-height:1.95;
+  }
+  #teksnimasi b{color:var(--pink-dark)}
+
+  .lingkar{
+    color:var(--pink-dark);
+    background-image:linear-gradient(transparent 62%,rgba(255,170,205,.6) 62%);
+    padding:0 3px;border-radius:3px;
+  }
+
+  /* ================= TOMBOL ================= */
+  #Tombol,#TombolWA{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+  .btn{
+    border:none;cursor:pointer;font-family:inherit;font-weight:700;font-size:1rem;
+    padding:14px 34px;border-radius:999px;
+    transition:transform .18s ease,box-shadow .18s ease;
+  }
+  .btn:active{transform:scale(.94)}
+  .btn-yes{
+    background:linear-gradient(135deg,#ff8fb1,#ff5c8a);color:#fff;
+    box-shadow:0 12px 24px -8px rgba(255,92,138,.85);
+  }
+  .btn-no{
+    background:#fff;color:#d9678f;
+    box-shadow:0 10px 22px -10px rgba(214,110,155,.8);
+  }
+
+  /* ================= PANAH BAWAH ================= */
+  #initom{
+    position:fixed;left:50%;bottom:22px;transform:translateX(-50%);
+    z-index:40;transition:opacity .4s ease,transform .4s ease;
+  }
+  #initom.hide{opacity:0;pointer-events:none;transform:translateX(-50%) translateY(24px)}
+  #initom a{
+    display:grid;place-items:center;width:48px;height:48px;border-radius:50%;
+    background:linear-gradient(135deg,#ff9dbb,#ff6b9d);color:#fff;cursor:pointer;
+    box-shadow:0 12px 26px -8px rgba(255,92,138,.9);
+    animation:bounce 1.8s infinite;
+  }
+  @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+  /* ================= MUSIK ================= */
+  .music-wrap{
+    position:fixed;left:16px;bottom:18px;z-index:55;
+    display:flex;flex-direction:column;align-items:flex-start;gap:10px;
+  }
+  .music-btn{
+    width:48px;height:48px;border-radius:50%;border:none;cursor:pointer;
+    background:#fff;font-size:20px;
+    display:grid;place-items:center;
+    box-shadow:0 10px 22px -10px rgba(200,110,150,.9);
+    transition:transform .2s, box-shadow .3s;
+  }
+  .music-btn:active{transform:scale(.92)}
+  .music-btn.playing{animation:pulseGlow 1.8s ease-in-out infinite}
+  @keyframes pulseGlow{
+    0%,100%{box-shadow:0 10px 22px -10px rgba(255,92,138,.9),0 0 0 0 rgba(255,122,168,.55)}
+    50%    {box-shadow:0 10px 22px -10px rgba(255,92,138,.9),0 0 0 12px rgba(255,122,168,0)}
+  }
+  .music-badge{
+    display:none;
+    background:#fff;padding:7px 12px;border-radius:14px;
+    line-height:1.25;
+    box-shadow:0 10px 24px -12px rgba(200,110,150,.8);
+    border:1px solid rgba(255,200,220,.6);
+  }
+  .music-badge.show{display:block;animation:fadeUp .35s ease}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .music-badge .mt{font-weight:700;color:var(--pink-dark);font-size:12px;display:flex;align-items:center;gap:6px}
+  .music-badge .mt .eq{display:inline-flex;gap:2px;align-items:flex-end;height:11px}
+  .music-badge .mt .eq i{
+    width:2.5px;background:var(--pink);border-radius:2px;
+    animation:eqBar .9s ease-in-out infinite;
+  }
+  .music-badge .mt .eq i:nth-child(1){animation-delay:0s;height:40%}
+  .music-badge .mt .eq i:nth-child(2){animation-delay:.15s;height:80%}
+  .music-badge .mt .eq i:nth-child(3){animation-delay:.3s;height:55%}
+  .music-badge .mt .eq i:nth-child(4){animation-delay:.45s;height:90%}
+  @keyframes eqBar{0%,100%{transform:scaleY(.5)}50%{transform:scaleY(1)}}
+  .music-badge .ma{color:#a08a9a;font-size:10px;margin-top:2px}
+
+  /* ================= BRANDING BY CHELVINXD ================= */
+  .brand-footer{
+    position:fixed;right:14px;bottom:18px;z-index:60;
+    font-family:'Caveat',cursive;font-size:16px;font-weight:700;
+    color:var(--pink-dark);
+    background:rgba(255,255,255,.85);
+    padding:6px 14px;border-radius:999px;
+    box-shadow:0 8px 20px -10px rgba(200,110,150,.9);
+    border:1px solid rgba(255,200,220,.7);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+    pointer-events:none;letter-spacing:.3px;
+    animation:brandFloat 3.4s ease-in-out infinite;
+  }
+  .brand-footer::before{content:"✦ ";color:var(--pink)}
+  @keyframes brandFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+  body.lock .brand-footer{opacity:0;transition:opacity .3s}
+
+  .brand-credit{
+    font-family:'Caveat',cursive;
+    font-size:clamp(1rem,4vw,1.2rem);
+    color:#c86a92;margin-top:22px;opacity:.85;letter-spacing:.4px;
+  }
+  .brand-credit b{color:var(--pink-dark);font-weight:700}
+
+  /* ================= HATI JATUH ================= */
+  .heart{
+    position:fixed;top:-50px;z-index:5;pointer-events:none;
+    animation:fall linear forwards;
+  }
+  @keyframes fall{to{transform:translateY(108vh) rotate(360deg);opacity:0}}
+
+  /* ================= REVEAL ================= */
+  .reveal{
+    opacity:0;transform:translateY(28px);
+    transition:opacity .9s ease,transform .9s cubic-bezier(.2,.8,.2,1);
+  }
+  .reveal.right{transform:translateX(-38px)}
+  .reveal.zoom{transform:scale(.9)}
+  .reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body class="lock">
+
+  <!-- ===== LOADING ===== -->
+  <div class="overlay" id="loading">
+    <div class="load-box">
+      <span class="heart-beat">💗</span>
+      Hai kamu!<br>Tunggu dulu ya..
+    </div>
+  </div>
+
+  <!-- ===== MUSIK SEMPURNA ===== -->
+  <!-- ⚠️ Taruh file "Sempurna.mp3" di folder yang sama dengan index.html -->
+  <audio id="musik" loop preload="auto" playsinline>
+    <source src="Sempurna.mp3" type="audio/mpeg">
+    <source src="musik.mp3"    type="audio/mpeg">
+  </audio>
+
+  <div class="music-wrap">
+    <button class="music-btn" id="musicBtn" aria-label="Putar musik Sempurna" title="Sempurna — Andra and The Backbone">
+      <span class="music-icon">🎵</span>
+    </button>
+    <div class="music-badge" id="musicBadge">
+      <div class="mt">
+        Sempurna
+        <span class="eq"><i></i><i></i><i></i><i></i></span>
+      </div>
+      <div class="ma">Andra and The Backbone</div>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- ===== 1 ===== -->
+    <section class="slide">
+      <div class="photo"><span class="emo">🌸</span></div>
+      <div class="stiker">🌷</div>
+      <h1 class="title reveal">Hei Kamuu!</h1>
+      <p class="hand reveal">Aku boleh jujur engga nih? ☺️</p>
+      <p class="hint reveal">Scroll terus ke bawah ya :)</p>
+    </section>
+
+    <!-- ===== 2 ===== -->
+    <section class="slide">
+      <div class="photo"><span class="emo">💐</span></div>
+      <h2 class="title reveal"><i>Sebenernya..</i></h2>
+      <p class="big reveal right">Aku suka sama <b class="lingkar">kamu</b> :(</p>
+    </section>
+
+    <!-- ===== 3 ===== -->
+    <section class="slide">
+      <div class="photo small"><span class="emo">💭</span></div>
+      <p id="teksnimasi" class="teks">Kalo kamu tanya kenapa aku suka sama kamu, itu karena aku punya rasa nyaman tersendiri yang ga akan aku temui di mana pun.<br><br><b><i>Kamu Tau?</i></b><br>Gaada yang bisa bikin aku nyaman selain kamu..<br><br>Dan karena mengenalimu, aku merasakan apa itu kenyamanan, apa itu kebahagiaan, dan kamu sekaligus rumah bagiku :)</p>
+    </section>
+
+    <!-- ===== 4 ===== -->
+    <section class="slide">
+      <div class="photo"><span class="emo">💖</span></div>
+      <h2 class="title reveal"><i>Intinya,</i></h2>
+      <p class="big reveal right">Kamu Mau Gak<br>Jadi Pacar Aku? 😍❤️</p>
+      <div id="Tombol" class="reveal">
+        <button class="btn btn-yes" onclick="jawab(true)">Mau</button>
+        <button class="btn btn-no" onclick="jawab(false)">Gamau</button>
+      </div>
+    </section>
+
+    <!-- ===== 5 (muncul setelah jawab) ===== -->
+    <section class="slide hidden" id="iniakhir">
+      <div class="photo"><span class="emo" id="emoAkhir">🎉</span></div>
+      <h1 id="judulakhir" class="title reveal"></h1>
+      <p id="kalimatakhir" class="big reveal zoom"></p>
+      <p id="tekspalingakhir" class="hint reveal"></p>
+      <div id="TombolWA" class="reveal">
+        <button class="btn btn-yes" onclick="menuju()">Balas 💌</button>
+      </div>
+      <p class="brand-credit">Dibuat dengan ❤️ oleh <b>ChelvinXD</b></p>
+    </section>
+
+  </main>
+
+  <!-- ===== PANAH BAWAH ===== -->
+  <div id="initom">
+    <a onclick="nextSection()" aria-label="Lanjut">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
+      </svg>
+    </a>
+  </div>
+
+  <!-- ===== BRANDING BY CHELVINXD ===== -->
+  <div class="brand-footer">By ChelvinXD</div>
+
+<script>
+/* ================= KONFIGURASI ================= */
+const nomorWA = "6285119358103";                       // nomor tujuan WhatsApp
+const pesanWA = "Aku mau kok jadi pacar kamu ><";       // pesan otomatis
+
+/* ================= LOADING ================= */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loading').classList.add('hide');
+    document.body.classList.remove('lock');
+    setTimeout(cobaAutoplay, 400);
+    setTimeout(cobaAutoplay, 1400);
+  }, 1300);
+});
+
+/* ================= NAVIGASI SECTION ================= */
+const sections = [...document.querySelectorAll('.slide')];
+let idx = 0;
+let answered = false;
+
+function lastVisibleIndex(){
+  return answered ? sections.length - 1 : sections.length - 2;
+}
+function updateArrow(){
+  document.getElementById('initom').classList.toggle('hide', idx >= lastVisibleIndex());
+}
+function nextSection(){
+  const target = sections[idx + 1];
+  if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+const spy = new IntersectionObserver((entries) => {
+  entries.forEach(en => {
+    if (en.isIntersecting){
+      idx = sections.indexOf(en.target);
+      updateArrow();
+    }
+  });
+}, {threshold: 0.55});
+sections.forEach(s => spy.observe(s));
+
+/* ================= REVEAL ANIMASI ================= */
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(en => {
+    if (!en.isIntersecting) return;
+    if (en.target.id === 'teksnimasi') startTyping();
+    else en.target.classList.add('in');
+    revealObs.unobserve(en.target);
+  });
+}, {threshold: 0.25});
+document.querySelectorAll('.reveal, #teksnimasi').forEach(el => revealObs.observe(el));
+
+/* ================= EFEK MENGETIK ================= */
+let typed = false;
+function startTyping(){
+  if (typed) return;
+  typed = true;
+  const el = document.getElementById('teksnimasi');
+  const html = el.innerHTML.trim();
+  el.innerHTML = '';
+  typeHTML(el, html, 22);
+}
+function typeHTML(el, html, speed){
+  const tokens = [];
+  const re = /(<[^>]+>)/g;
+  let last = 0, m;
+  while ((m = re.exec(html)) !== null){
+    if (m.index > last) tokens.push({t:'text', v: html.slice(last, m.index)});
+    tokens.push({t:'tag', v: m[0]});
+    last = m.index + m[0].length;
+  }
+  if (last < html.length) tokens.push({t:'text', v: html.slice(last)});
+
+  let out = '', ti = 0, ci = 0;
+  (function step(){
+    if (ti >= tokens.length) return;
+    const tok = tokens[ti];
+    if (tok.t === 'tag'){
+      out += tok.v; ti++; ci = 0;
+      el.innerHTML = out;
+      setTimeout(step, 70);
+      return;
+    }
+    if (ci < tok.v.length){
+      const ch = tok.v[ci++];
+      out += ch;
+      el.innerHTML = out;
+      setTimeout(step, ch === ' ' ? speed / 2 : speed);
+    } else { ti++; ci = 0; step(); }
+  })();
+}
+
+/* ================= JAWABAN ================= */
+function jawab(mau){
+  if (answered) return;
+  answered = true;
+
+  const akhir = document.getElementById('iniakhir');
+  akhir.classList.remove('hidden');
+
+  document.getElementById('judulakhir').textContent = mau ? "Yeayyy! 🥳" : "Yahhh 😫";
+  document.getElementById('kalimatakhir').innerHTML = mau
+    ? "Makasii udah mau nerima<br>aku jadi pacar kamu, hihi 🤭❤️"
+    : "Yaudah kalo kamu gamau,<br>biar aku aja yang jadi<br>pacar kamu, hehe 😆❤️";
+  document.getElementById('tekspalingakhir').innerHTML = "Jangan lupa balas pesan<br>ke WhatsApp aku ya! ✨";
+  document.getElementById('emoAkhir').textContent = mau ? "🥳" : "😆";
+
+  updateArrow();
+  setTimeout(() => akhir.scrollIntoView({behavior:'smooth', block:'start'}), 180);
+  for (let i = 0; i < 14; i++) setTimeout(spawnHeart, i * 90);
+}
+
+/* ================= KIRIM WHATSAPP ================= */
+function menuju(){
+  const url = 'https://wa.me/' + nomorWA + '?text=' + encodeURIComponent(pesanWA);
+  window.open(url, '_blank');
+}
+
+/* ================= HATI BERJATUHAN ================= */
+const emojiHati = ['💗','💖','💕','❤️','🌸','💞'];
+function spawnHeart(){
+  const h = document.createElement('div');
+  h.className = 'heart';
+  h.textContent = emojiHati[Math.floor(Math.random() * emojiHati.length)];
+  h.style.left = (Math.random() * 96) + 'vw';
+  h.style.fontSize = (14 + Math.random() * 16) + 'px';
+  h.style.animationDuration = (5 + Math.random() * 4) + 's';
+  h.style.opacity = (0.45 + Math.random() * 0.5).toFixed(2);
+  document.body.appendChild(h);
+  setTimeout(() => h.remove(), 10000);
+}
+setInterval(spawnHeart, 800);
+
+/* ================= MUSIK SEMPURNA (AUTO + TOGGLE) ================= */
+const audio      = document.getElementById('musik');
+const musicBtn   = document.getElementById('musicBtn');
+const musicBadge = document.getElementById('musicBadge');
+const musicIcon  = musicBtn.querySelector('.music-icon');
+
+let musikOn    = false;
+let userPaused = false;
+
+function setMusicUI(on){
+  musikOn = on;
+  musicBtn.classList.toggle('playing', on);
+  musicIcon.textContent = on ? '🎶' : '🎵';
+  musicBadge.classList.toggle('show', on);
+  musicBtn.setAttribute('aria-label', on ? 'Matikan musik Sempurna' : 'Putar musik Sempurna');
+}
+
+async function playMusic(){
+  if (userPaused) return false;
+  try{
+    audio.muted = false;
+    audio.volume = 1;
+    await audio.play();
+    setMusicUI(true);
+    return true;
+  }catch(e){ return false; }
+}
+
+function pauseMusic(){
+  audio.pause();
+  setMusicUI(false);
+}
+
+musicBtn.addEventListener('click', async (e) => {
+  e.stopPropagation();
+  if (musikOn){ userPaused = true; pauseMusic(); }
+  else { userPaused = false; await playMusic(); }
+});
+
+/* Autoplay agresif: coba langsung + saat interaksi pertama */
+let sudahNyala = false;
+function cobaAutoplay(){ if (!userPaused && !musikOn) playMusic(); }
+function pemicuInteraksi(){
+  if (sudahNyala || userPaused) return;
+  playMusic().then(ok => { if (ok) sudahNyala = true; });
+}
+
+['click','touchstart','touchend','keydown','scroll','pointerdown','wheel']
+  .forEach(ev => document.addEventListener(ev, pemicuInteraksi, {passive:true}));
+
+document.addEventListener('DOMContentLoaded', cobaAutoplay);
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden && !userPaused && !musikOn) playMusic();
+});
+
+audio.addEventListener('pause',   () => { if (!userPaused) setMusicUI(false); });
+audio.addEventListener('playing', () => setMusicUI(true));
+audio.addEventListener('error',   () => {
+  musicBtn.style.opacity = '.5';
+  musicBtn.title = 'File Sempurna.mp3 belum ada di folder';
+  console.warn('Musik gagal dimuat. Pastikan file "Sempurna.mp3" ada di folder yang sama.');
+});
+
+/* ================= INISIALISASI ================= */
+updateArrow();
+</script>
+</body>
+</html>
